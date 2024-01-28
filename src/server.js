@@ -29,13 +29,14 @@ app.post("/sign-in", async (req, res) => {
 });
 
 app.get("/login", async (req, res) => {
-  const fname = req.body.firstName;
-  const user = await User.exists({ firstName: fname }); //will send id if true
+  const username = req.body.email;
+  const password = req.body.password;
+  const user = await User.findOne({ email: username, password1: password }); //will send id if true
+  console.log(user);
   if (user) {
-    const showUser = await User.findById(user);
-    res.send(`You are logged-in with: ${showUser}`);
+    res.send(`You are logged-in with: ${user}`);
   } else {
-    res.send("No user found!");
+    res.send("Email or password is invalid!");
   }
 });
 
